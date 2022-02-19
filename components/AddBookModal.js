@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Button, TextInput, View, StyleSheet, Modal } from "react-native";
+import Colors from "../constants/Colors";
 
-export const AddBookModal = ({onAddBookHandler, setModalVisible, modalVisible}) => {
+export const AddBookModal = ({ onAddBookHandler, setModalVisible, modalVisible }) => {
     const [title, setTitle] = useState("");
-    const [pages, setPages] = useState(0);
-    const [readPages, setReadPages] = useState(0);
+    const [pages, setPages] = useState("");
+    const [readPages, setReadPages] = useState("");
     const [cover, setCover] = useState("");
 
     const bookTitleHandler = (text) => {
@@ -19,58 +20,115 @@ export const AddBookModal = ({onAddBookHandler, setModalVisible, modalVisible}) 
         setReadPages(number);
     };
 
-    const bookCoverHandler = (url) => {
-        setCover(url);
+    const bookCoverHandler = (text) => {
+        setCover(text);
     };
 
-    const validateBook = () => {
-        onAddBookHandler({title, pages, readPages, cover});
+    const resetAndCloseModal = () => {
         setTitle("");
-        setPages(0);
-        setReadPages(0);
+        setPages("");
+        setReadPages("");
         setCover("");
         setModalVisible(false);
+    }
+
+    const validateBook = () => {
+        onAddBookHandler({ title, pages: parseInt(pages), readPages: parseInt(readPages), cover });
+        resetAndCloseModal();
     };
 
     return (
-        <View style={styles.centeredView}>
-            <Modal visible={modalVisible} animationType={"fade"}>
-                <TextInput
-                    placeholder="Título del libro"
-                    value={title}
-                    onChangeText={bookTitleHandler}
-                />
-                <TextInput
-                    placeholder="Páginas"
-                    value={pages.toString()}
-                    keyboardType={'number-pad'}
-                    onChangeText={bookPagesHandler}
-                />
-                <TextInput
-                    placeholder="Páginas leídas"
-                    value={readPages.toString()}
-                    keyboardType={'number-pad'}
-                    onChangeText={bookReadPagesHandler}
-                />
-                <TextInput
-                    placeholder="Portada (URL de imagen)"
-                    value={cover}
-                    onChangeText={bookCoverHandler}
-                />
-                <Button
-                    onPress={validateBook}
-                    title="Añadir"
-                />
-            </Modal>
-        </View>
+        <Modal visible={modalVisible} animationType={'slide'} transparent={true}>
+            <View style={styles.modalBackground}>
+                <View style={styles.modal}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Título del libro"
+                        value={title}
+                        onChangeText={bookTitleHandler}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Páginas"
+                        value={pages.toString()}
+                        keyboardType={'numeric'}
+                        onChangeText={bookPagesHandler}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Páginas leídas"
+                        value={readPages.toString()}
+                        keyboardType={'numeric'}
+                        onChangeText={bookReadPagesHandler}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Portada (URL de imagen)"
+                        value={cover}
+                        onChangeText={bookCoverHandler}
+                    />
+
+                    <View style={styles.buttonsContainer}>
+                        <View style={styles.button}>
+                            <Button
+                                title="Añadir"
+                                color={Colors.coffee4}
+                                onPress={validateBook}
+                            />
+                        </View>
+                        <View style={styles.button}>
+                            <Button
+                                title="Cancelar"
+                                color={Colors.coffee5}
+                                onPress={resetAndCloseModal}
+                            />
+                        </View>
+                    </View>
+                </View>
+            </View>
+        </Modal>
     );
 };
 
 const styles = StyleSheet.create({
-    centeredView: {
+    modalBackground: {
         flex: 1,
-        justifyContent: "center",
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'rgba(0,0,0,0.5)'
+    },
+    modal: {
+        marginVertical: '50%',
+        marginHorizontal: '10%',
+        backgroundColor: Colors.coffee2,
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: Colors.coffee1,
+        padding: 20,
         alignItems: "center",
-        marginTop: 22,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    input: {
+        width: 200,
+        margin: 5,
+        textAlign: "center",
+        borderRadius: 10,
+        backgroundColor: Colors.coffee3
+    },
+    buttonsContainer: {
+        width:'100%',
+        flexDirection: 'row'
+    },
+    button: {
+        width: 100,
+        marginHorizontal: 10,
+        marginTop: 10
     },
 });
