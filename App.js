@@ -20,10 +20,10 @@ export default function App() {
   const addBookHandler = (book) => {
     if (book.title !== "" && book.cover !== "") {
       if (book.readPages > 0) {
-        setReadBookList((currentRBList) => [...currentRBList, {key: Math.random().toString(), value: book}]);
+        setReadBookList((currentRBList) => [...currentRBList, { key: Math.random().toString(), value: book }]);
         console.log('>> Añadido a libros leídos:', book.title, '(', book.pages, 'pags)\n');
       } else {
-        setToReadList((currentToReadList) => [...currentToReadList, {key: Math.random().toString(), value: book}]);
+        setToReadList((currentToReadList) => [...currentToReadList, { key: Math.random().toString(), value: book }]);
         console.log('>> Añadido a libros para leer:', book.title, '(', book.pages, 'pags)\n');
       }
     }
@@ -61,7 +61,13 @@ export default function App() {
         />
       </View>
 
-      <View style={styles.bookList}></View>
+      <View style={styles.bookList}>
+        <FlatList data={readBookList} renderItem={itemData => (
+          <BookCard
+            value={itemData.item.value}
+          />
+        )} />
+      </View>
 
       <View style={{ width: 150, marginTop: 15 }}>
         <Button title={'Agregar libro'} color={Colors.coffee2} onPress={() => setModalVisible(true)} />
