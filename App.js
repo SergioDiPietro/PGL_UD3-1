@@ -6,8 +6,28 @@ import Colors from "./constants/Colors";
 
 export default function App() {
   const [color, setColor] = useState(Colors.coffee1);
-  const [bookList, setBookList] = useState([]);
+  const [readBookList, setReadBookList] = useState([]);
+  const [toReadList, setToReadList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const handleShowList = (showReadList) => {
+    if (showReadList) setColor(Colors.coffee1);
+    else setColor(Colors.coffee3);
+
+    //Mostrar lista
+  };
+
+  const addBookHandler = (book) => {
+    if (book.title !== "" && book.cover !== "") {
+      if (book.readPages > 0) {
+        setReadBookList((currentRBList) => [...currentRBList, {key: Math.random().toString(), value: book}]);
+        console.log('>> Añadido a libros leídos:', book.title, '(', book.pages, 'pags)\n');
+      } else {
+        setToReadList((currentToReadList) => [...currentToReadList, {key: Math.random().toString(), value: book}]);
+        console.log('>> Añadido a libros para leer:', book.title, '(', book.pages, 'pags)\n');
+      }
+    }
+  };
 
   const styles = StyleSheet.create({
     screen: {
@@ -24,13 +44,6 @@ export default function App() {
       width: '100%'
     }
   });
-
-  const handleShowList = (showReadList) => {
-    if (showReadList) setColor(Colors.coffee1);
-    else setColor(Colors.coffee3);
-
-    //Mostrar lista
-  };
 
   return (
     <View style={styles.screen}>
@@ -54,7 +67,7 @@ export default function App() {
         <Button title={'Agregar libro'} color={Colors.coffee2} onPress={() => setModalVisible(true)} />
       </View>
 
-      <AddBookModal onAddBookHandler={() => console.log('agregado')} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <AddBookModal onAddBookHandler={addBookHandler} modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </View>
   );
 };
