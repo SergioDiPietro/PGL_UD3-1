@@ -71,16 +71,16 @@ export const AddBookModal = ({ onAddBookHandler, setModalVisible, modalVisible }
                     <View style={styles.buttonsContainer}>
                         <View style={styles.button}>
                             <Button
-                                title="Añadir"
-                                color={Colors.coffee4}
-                                onPress={validateBook}
+                                title="Cancelar"
+                                color={Colors.coffee5}
+                                onPress={resetAndCloseModal}
                             />
                         </View>
                         <View style={styles.button}>
                             <Button
-                                title="Cancelar"
-                                color={Colors.coffee5}
-                                onPress={resetAndCloseModal}
+                                title="Añadir"
+                                color={Colors.coffee4}
+                                onPress={validateBook}
                             />
                         </View>
                     </View>

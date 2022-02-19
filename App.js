@@ -1,7 +1,8 @@
-import { StyleSheet, View, StatusBar, Button } from 'react-native';
+import { StyleSheet, View, StatusBar, Button, FlatList } from 'react-native';
 import { useState } from 'react';
 import { Tab } from './components/Tab';
 import { AddBookModal } from "./components/AddBookModal";
+import { BookCard } from "./components/BookCard";
 import Colors from "./constants/Colors";
 
 export default function App() {
@@ -9,13 +10,7 @@ export default function App() {
   const [readBookList, setReadBookList] = useState([]);
   const [toReadList, setToReadList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-
-  const handleShowList = (showReadList) => {
-    if (showReadList) setColor(Colors.coffee1);
-    else setColor(Colors.coffee3);
-
-    //Mostrar lista
-  };
+  const [showList, setshowList] = useState(true);
 
   const addBookHandler = (book) => {
     if (book.title !== "" && book.cover !== "") {
@@ -33,12 +28,13 @@ export default function App() {
     screen: {
       width: "100%",
       height: "100%",
-      justifyContent: 'flex-start',
       alignItems: 'center',
       backgroundColor: Colors.coffee5,
       paddingTop: 10
     },
     bookList: {
+      alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: color,
       height: '85%',
       width: '100%'
@@ -50,23 +46,29 @@ export default function App() {
       <StatusBar backgroundColor={Colors.coffee5} />
       <View style={{ flexDirection: 'row' }}>
         <Tab
-          toggleList={() => { handleShowList(true) }}
+          toggleList={() => { setshowList(true); setColor(Colors.coffee1) }}
           title="Libros leídos"
           style={{ backgroundColor: Colors.coffee1, width: '50%' }}
         />
         <Tab
-          toggleList={() => { handleShowList(false) }}
+          toggleList={() => { setshowList(false); setColor(Colors.coffee3) }}
           title="Libros a leer"
           style={{ backgroundColor: Colors.coffee3, width: '50%' }}
         />
       </View>
 
       <View style={styles.bookList}>
+        {showList ? 
         <FlatList data={readBookList} renderItem={itemData => (
           <BookCard
             value={itemData.item.value}
           />
-        )} />
+        )}/> : 
+        <FlatList data={toReadList} renderItem={itemData => (
+          <BookCard
+            value={itemData.item.value}
+          />
+        )}/>}
       </View>
 
       <View style={{ width: 150, marginTop: 15 }}>
