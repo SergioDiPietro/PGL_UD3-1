@@ -1,20 +1,24 @@
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, StatusBar, Button } from 'react-native';
 import { useState } from 'react';
 import { Tab } from './components/Tab/Tab';
 import Colors from "./constants/Colors";
 
 export default function App() {
   const [color, setColor] = useState(Colors.coffee1);
+  const [modalVisible, setModalVisible] = useState(false);
+
   const styles = StyleSheet.create({
     screen: {
       width: "100%",
       height: "100%",
       justifyContent: 'flex-start',
-      marginTop: 40
+      alignItems: 'center',
+      backgroundColor: Colors.coffee5,
+      paddingTop: 10
     }, 
     bookList: {
       backgroundColor: color,
-      height: '100%',
+      height: '85%',
       width: '100%'
     }
   });
@@ -28,6 +32,7 @@ export default function App() {
 
   return (
     <View style={styles.screen}>
+      <StatusBar backgroundColor={Colors.coffee5}/>
       <View style={{flexDirection: 'row'}}>
         <Tab 
           toggleList={() => {handleShowList(true)}} 
@@ -41,8 +46,10 @@ export default function App() {
         />
       </View>
 
-      <View style={styles.bookList}>   
-        
+      <View style={styles.bookList}></View>
+
+      <View style={{width: 150, marginTop: 15}}>
+        <Button title={'Agregar libro'} color={Colors.coffee2} onPress={() => setModalVisible(true)} />
       </View>
     </View>
   );
