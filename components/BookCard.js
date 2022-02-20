@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, Image, Button } from "react-native";
 import Colors from "../constants/Colors";
 
-export const BookCard = ({ value }) => {
+export const BookCard = ({ value, deleteBook }) => {
     return (
         <View style={styles.cardContainer}>
             <View style={styles.coverImage}>
@@ -20,7 +20,7 @@ export const BookCard = ({ value }) => {
                         <Button
                             title="Eliminar"
                             color={Colors.coffee4}
-                            onPress={() => console.log('Eliminar')}
+                            onPress={deleteBook}
                         />
                     </View>
                     <View style={styles.button}>

@@ -22,6 +22,11 @@ export default function App() {
     }
   };
 
+  const deleteBookHandler = (key) => {
+    if (showList) setReadBookList((readBookList) => readBookList.filter((book) => book.key !== key))
+    else setToReadList((toReadList) => toReadList.filter((book) => book.key !== key))
+  }
+
   const styles = StyleSheet.create({
     screen: {
       width: "100%",
@@ -59,14 +64,10 @@ export default function App() {
       <View style={styles.bookList}>
         {showList ? 
         <FlatList data={readBookList} renderItem={itemData => (
-          <BookCard
-            value={itemData.item.value}
-          />
+          <BookCard value={itemData.item.value} deleteBook={() => deleteBookHandler(itemData.item.key)}/>
         )}/> : 
         <FlatList data={toReadList} renderItem={itemData => (
-          <BookCard
-            value={itemData.item.value}
-          />
+          <BookCard value={itemData.item.value} deleteBook={() => deleteBookHandler(itemData.item.key)}/>
         )}/>}
       </View>
 
