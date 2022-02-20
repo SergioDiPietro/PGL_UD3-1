@@ -1,7 +1,7 @@
 import { StyleSheet, View, StatusBar, Button, FlatList } from 'react-native';
 import { useState } from 'react';
 import { Tab } from './components/Tab';
-import { AddBookModal } from "./components/AddBookModal";
+import { BookModal } from "./components/BookModal";
 import { BookCard } from "./components/BookCard";
 import Colors from "./constants/Colors";
 
@@ -73,7 +73,7 @@ export default function App() {
         <Button title={'Agregar libro'} color={Colors.coffee2} onPress={() => setModalVisible(true)} />
       </View>
 
-      <AddBookModal onAddBookHandler={addBookHandler} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <BookModal onAddBookHandler={addBookHandler} modalVisible={modalVisible} setModalVisible={setModalVisible} />
     </View>
   );
 };

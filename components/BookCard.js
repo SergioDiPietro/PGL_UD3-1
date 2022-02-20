@@ -1,6 +1,5 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image } from "react-native";
-import { color } from 'react-native/Libraries/Components/View/ReactNativeStyleAttributes';
 import Colors from "../constants/Colors";
 
 export const BookCard = ({ value }) => {

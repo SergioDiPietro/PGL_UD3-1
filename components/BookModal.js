@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, TextInput, View, StyleSheet, Modal } from "react-native";
 import Colors from "../constants/Colors";
 
-export const AddBookModal = ({ onAddBookHandler, setModalVisible, modalVisible }) => {
+export const BookModal = ({ onAddBookHandler, setModalVisible, modalVisible }) => {
     const [title, setTitle] = useState("");
     const [pages, setPages] = useState("");
     const [readPages, setReadPages] = useState("");
