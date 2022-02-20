@@ -35,7 +35,8 @@ export default function App() {
       justifyContent: 'center',
       backgroundColor: color,
       height: '85%',
-      width: '100%'
+      width: '100%',
+      paddingTop: 20
     }
   });
 

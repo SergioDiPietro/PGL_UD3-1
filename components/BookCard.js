@@ -1,20 +1,36 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image } from "react-native";
+import { View, StyleSheet, Text, Image, Button } from "react-native";
 import Colors from "../constants/Colors";
 
 export const BookCard = ({ value }) => {
     return (
         <View style={styles.cardContainer}>
-            <View>
-                <Image
-                    style={styles.coverImage}
-                    source={{ uri: value.cover }}
-                />
+            <View style={styles.coverImage}>
+                <Image source={{ uri: value.cover }} />
             </View>
-            <View style={styles.bookInfoContainer}>
-                <Text style={styles.bookTitle}>"{value.title}"</Text>
-                <Text style={styles.bookInfo}>• Páginas: {value.pages}</Text>
-                <Text style={styles.bookInfo}>• Total leído: {Math.ceil((value.readPages / value.pages) * 100)}%</Text>
+            <View style={styles.cardRightSide}>
+                <View style={styles.bookInfoContainer}>
+                    <Text style={styles.bookTitle}>"{value.title}"</Text>
+                    <Text style={styles.bookInfo}>• Páginas: {value.pages}</Text>
+                    <Text style={styles.bookInfo}>• Total leído: {Math.ceil((value.readPages / value.pages) * 100)}%</Text>
+                </View>
+
+                <View style={styles.buttonsContainer}>
+                    <View style={styles.button}>
+                        <Button
+                            title="Eliminar"
+                            color={Colors.coffee4}
+                            onPress={() => console.log('Eliminar')}
+                        />
+                    </View>
+                    <View style={styles.button}>
+                        <Button
+                            title="Editar"
+                            color={Colors.coffee4}
+                            onPress={() => console.log('Editar')}
+                        />
+                    </View>
+                </View>
             </View>
         </View>
     )
@@ -35,21 +51,24 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5,
 
-        marginTop: 20,
+        marginBottom: 10,
+        padding: 10,
         alignItems: "center",
         flexDirection: 'row',
         height: 200,
         width: 350
     },
     coverImage: {
-        margin: 10,
-        width: 120,
-        height: 180,
+        height: '100%',
+        flex: 2,
+        marginRight: 10
+    },
+    cardRightSide: {
+        flex: 3
     },
     bookInfoContainer: {
         alignContent: 'center',
-        width: 195,
-        height: 180
+        flex: 8
     },
     bookTitle: {
         flexWrap: 'wrap',
@@ -67,5 +86,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         color: Colors.coffee4
+    },
+    buttonsContainer: {
+        flex: 2,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    button: {
+        width: 90,
+        height: 40,
     }
 });

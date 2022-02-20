@@ -131,5 +131,5 @@ const styles = StyleSheet.create({
         width: 100,
         marginHorizontal: 10,
         marginTop: 10,
-    },
+    }
 });
