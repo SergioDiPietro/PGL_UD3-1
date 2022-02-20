@@ -1,4 +1,4 @@
-import { StyleSheet, View, StatusBar, Button, FlatList } from 'react-native';
+import { StyleSheet, View, StatusBar, Button, FlatList, Alert } from 'react-native';
 import { useState } from 'react';
 import { Tab } from './components/Tab';
 import { BookModal } from "./components/BookModal";
@@ -22,9 +22,19 @@ export default function App() {
     }
   };
 
+  const confirmDeleteAlert = (item) => {
+    Alert.alert(
+      "¿Eliminar libro '"+item.value.title+"'?", "",
+      [
+        { text: "Cancelar" },
+        { text: "Confirmar", onPress: () => deleteBookHandler(item.key) }
+      ]
+    );
+  }
+
   const deleteBookHandler = (key) => {
-    if (showList) setReadBookList((readBookList) => readBookList.filter((book) => book.key !== key))
-    else setToReadList((toReadList) => toReadList.filter((book) => book.key !== key))
+    if (showList) setReadBookList((readBookList) => readBookList.filter((book) => book.key !== key));
+    else setToReadList((toReadList) => toReadList.filter((book) => book.key !== key));
   }
 
   const styles = StyleSheet.create({
@@ -62,13 +72,13 @@ export default function App() {
       </View>
 
       <View style={styles.bookList}>
-        {showList ? 
-        <FlatList data={readBookList} renderItem={itemData => (
-          <BookCard value={itemData.item.value} deleteBook={() => deleteBookHandler(itemData.item.key)}/>
-        )}/> : 
-        <FlatList data={toReadList} renderItem={itemData => (
-          <BookCard value={itemData.item.value} deleteBook={() => deleteBookHandler(itemData.item.key)}/>
-        )}/>}
+        {showList ?
+          <FlatList data={readBookList} renderItem={itemData => (
+            <BookCard value={itemData.item.value} deleteBook={() => confirmDeleteAlert(itemData.item)} />
+          )} /> :
+          <FlatList data={toReadList} renderItem={itemData => (
+            <BookCard value={itemData.item.value} deleteBook={() => confirmDeleteAlert(itemData.item)} />
+          )} />}
       </View>
 
       <View style={{ width: 150, marginTop: 15 }}>
