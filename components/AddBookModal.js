@@ -46,6 +46,7 @@ export const AddBookModal = ({ onAddBookHandler, setModalVisible, modalVisible }
                         placeholder="Título del libro"
                         value={title}
                         onChangeText={bookTitleHandler}
+                        maxLength={30}
                     />
                     <TextInput
                         style={styles.input}
@@ -129,6 +130,6 @@ const styles = StyleSheet.create({
     button: {
         width: 100,
         marginHorizontal: 10,
-        marginTop: 10
+        marginTop: 10,
     },
 });

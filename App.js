@@ -16,10 +16,8 @@ export default function App() {
     if (book.title !== "" && book.cover !== "") {
       if (book.readPages > 0) {
         setReadBookList((currentRBList) => [...currentRBList, { key: Math.random().toString(), value: book }]);
-        console.log('>> Añadido a libros leídos:', book.title, '(', book.pages, 'pags)\n');
       } else {
         setToReadList((currentToReadList) => [...currentToReadList, { key: Math.random().toString(), value: book }]);
-        console.log('>> Añadido a libros para leer:', book.title, '(', book.pages, 'pags)\n');
       }
     }
   };
@@ -51,9 +49,9 @@ export default function App() {
           style={{ backgroundColor: Colors.coffee1, width: '50%' }}
         />
         <Tab
-          toggleList={() => { setshowList(false); setColor(Colors.coffee3) }}
+          toggleList={() => { setshowList(false); setColor(Colors.coffee4) }}
           title="Libros a leer"
-          style={{ backgroundColor: Colors.coffee3, width: '50%' }}
+          style={{ backgroundColor: Colors.coffee4, width: '50%' }}
         />
       </View>
 
