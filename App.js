@@ -1,7 +1,8 @@
 import { StyleSheet, View, StatusBar, Button, FlatList, Alert } from 'react-native';
 import { useState } from 'react';
 import { Tab } from './components/Tab';
-import { BookModal } from "./components/BookModal";
+import { AddBookModal } from "./components/AddBookModal";
+import { EditBookModal } from './components/EditBookModal';
 import { BookCard } from "./components/BookCard";
 import Colors from "./constants/Colors";
 
@@ -9,8 +10,10 @@ export default function App() {
   const [color, setColor] = useState(Colors.coffee1);
   const [readBookList, setReadBookList] = useState([]);
   const [toReadList, setToReadList] = useState([]);
-  const [modalVisible, setModalVisible] = useState(false);
+  const [addModalVisible, setAddModalVisible] = useState(false);
+  const [editModalVisible, setEditModalVisible] = useState(false);
   const [showList, setshowList] = useState(true);
+  const [bookItem, setBookItem] = useState({key:'', value: {title:'', pages:'', readPages:'', cover:''}});
 
   const addBookHandler = (book) => {
     if (book.title !== "" && book.cover !== "") {
@@ -24,7 +27,7 @@ export default function App() {
 
   const confirmDeleteAlert = (item) => {
     Alert.alert(
-      "¿Eliminar libro '"+item.value.title+"'?", "",
+      "¿Eliminar libro '" + item.value.title + "'?", "",
       [
         { text: "Cancelar" },
         { text: "Confirmar", onPress: () => deleteBookHandler(item.key) }
@@ -35,6 +38,10 @@ export default function App() {
   const deleteBookHandler = (key) => {
     if (showList) setReadBookList((readBookList) => readBookList.filter((book) => book.key !== key));
     else setToReadList((toReadList) => toReadList.filter((book) => book.key !== key));
+  }
+
+  const editBookHandler = (book, key) => {
+    console.log('editando')
   }
 
   const styles = StyleSheet.create({
@@ -73,19 +80,38 @@ export default function App() {
 
       <View style={styles.bookList}>
         {showList ?
-          <FlatList data={readBookList} renderItem={itemData => (
-            <BookCard value={itemData.item.value} deleteBook={() => confirmDeleteAlert(itemData.item)} />
+          <FlatList data={readBookList} renderItem={itemList => (
+            <BookCard
+              value={itemList.item.value}
+              deleteBook={() => confirmDeleteAlert(itemList.item)}
+              editBook={() => {setBookItem(itemList.item); setEditModalVisible(true)}}
+            />
           )} /> :
-          <FlatList data={toReadList} renderItem={itemData => (
-            <BookCard value={itemData.item.value} deleteBook={() => confirmDeleteAlert(itemData.item)} />
+          <FlatList data={toReadList} renderItem={itemList => (
+            <BookCard
+              value={itemList.item.value}
+              deleteBook={() => confirmDeleteAlert(itemList.item)}
+              editBook={() => {setBookItem(itemList.item); setEditModalVisible(true)}}
+            />
           )} />}
       </View>
 
       <View style={{ width: 150, marginTop: 15 }}>
-        <Button title={'Agregar libro'} color={Colors.coffee2} onPress={() => setModalVisible(true)} />
+        <Button title={'Agregar libro'} color={Colors.coffee2} onPress={() => setAddModalVisible(true)} />
       </View>
 
-      <BookModal onAddBookHandler={addBookHandler} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <AddBookModal
+        onAddBookHandler={addBookHandler}
+        addModalVisible={addModalVisible}
+        setAddModalVisible={setAddModalVisible}
+      />
+
+      <EditBookModal
+        bookItem={bookItem}
+        onEditBookHandler={editBookHandler}
+        editModalVisible={editModalVisible}
+        setEditModalVisible={setEditModalVisible}
+      />
     </View>
   );
 };

@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { Button, TextInput, View, StyleSheet, Modal } from "react-native";
+import { Button, TextInput, View, StyleSheet, Modal, Text } from "react-native";
 import Colors from "../constants/Colors";
 
-export const BookModal = ({ onAddBookHandler, setModalVisible, modalVisible }) => {
-    const [title, setTitle] = useState("");
-    const [pages, setPages] = useState("");
-    const [readPages, setReadPages] = useState("");
-    const [cover, setCover] = useState("");
+export const EditBookModal = ({ onEditBookHandler, setEditModalVisible, editModalVisible, bookItem }) => {
+    const [title, setTitle] = useState(bookItem.value.title);
+    const [pages, setPages] = useState(bookItem.value.pages);
+    const [readPages, setReadPages] = useState(bookItem.value.readPages);
+    const [cover, setCover] = useState(bookItem.value.cover);
 
     const bookTitleHandler = (text) => {
         setTitle(text);
@@ -29,18 +29,19 @@ export const BookModal = ({ onAddBookHandler, setModalVisible, modalVisible }) =
         setPages("");
         setReadPages("");
         setCover("");
-        setModalVisible(false);
+        setEditModalVisible(false);
     }
 
     const validateBook = () => {
-        onAddBookHandler({ title, pages: parseInt(pages), readPages: parseInt(readPages), cover });
+        onEditBookHandler({ title, pages: parseInt(pages), readPages: parseInt(readPages), cover }, bookItem.key);
         resetAndCloseModal();
     };
 
     return (
-        <Modal visible={modalVisible} animationType={'slide'} transparent={true}>
+        <Modal visible={editModalVisible} animationType={'slide'} transparent={true}>
             <View style={styles.modalBackground}>
-                <View style={styles.modal}>
+                <View style={styles.modalContainer}>
+                    <Text style={styles.modalTitle}>Editar libro</Text>
                     <TextInput
                         style={styles.input}
                         placeholder="Título del libro"
@@ -79,7 +80,7 @@ export const BookModal = ({ onAddBookHandler, setModalVisible, modalVisible }) =
                         </View>
                         <View style={styles.button}>
                             <Button
-                                title="Añadir"
+                                title="Guardar"
                                 color={Colors.coffee4}
                                 onPress={validateBook}
                             />
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'rgba(0,0,0,0.5)'
     },
-    modal: {
+    modalContainer: {
         marginVertical: '50%',
         marginHorizontal: '10%',
         backgroundColor: Colors.coffee2,
@@ -116,6 +117,12 @@ const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 5
     },
+    modalTitle: {
+        marginBottom: 15,
+        fontSize: 20,
+        fontWeight: 'bold',
+        color: Colors.coffee4
+    },
     input: {
         width: 200,
         margin: 5,
@@ -125,7 +132,8 @@ const styles = StyleSheet.create({
     },
     buttonsContainer: {
         width:'100%',
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginTop: 10
     },
     button: {
         width: 100,

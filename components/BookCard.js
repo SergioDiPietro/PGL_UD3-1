@@ -2,7 +2,7 @@ import React from 'react'
 import { View, StyleSheet, Text, Image, Button } from "react-native";
 import Colors from "../constants/Colors";
 
-export const BookCard = ({ value, deleteBook }) => {
+export const BookCard = ({ value, deleteBook, editBook }) => {
     return (
         <View style={styles.cardContainer}>
             <View style={styles.coverImage}>
@@ -27,7 +27,7 @@ export const BookCard = ({ value, deleteBook }) => {
                         <Button
                             title="Editar"
                             color={Colors.coffee4}
-                            onPress={() => console.log('Editar')}
+                            onPress={editBook}
                         />
                     </View>
                 </View>
@@ -61,7 +61,8 @@ const styles = StyleSheet.create({
     coverImage: {
         height: '100%',
         flex: 2,
-        marginRight: 10
+        marginRight: 10,
+        backgroundColor: Colors.coffee5
     },
     cardRightSide: {
         flex: 3
