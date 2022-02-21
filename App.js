@@ -2,7 +2,6 @@ import { StyleSheet, View, StatusBar, Button, FlatList, Alert } from 'react-nati
 import { useState } from 'react';
 import { Tab } from './components/Tab';
 import { AddBookModal } from "./components/AddBookModal";
-import { EditBookModal } from './components/EditBookModal';
 import { BookCard } from "./components/BookCard";
 import Colors from "./constants/Colors";
 
@@ -11,9 +10,7 @@ export default function App() {
   const [readBookList, setReadBookList] = useState([]);
   const [toReadList, setToReadList] = useState([]);
   const [addModalVisible, setAddModalVisible] = useState(false);
-  const [editModalVisible, setEditModalVisible] = useState(false);
   const [showList, setshowList] = useState(true);
-  const [bookItem, setBookItem] = useState({key:'', value: {title:'', pages:'', readPages:'', cover:''}});
 
   const addBookHandler = (book) => {
     if (book.title !== "" && book.cover !== "") {
@@ -40,8 +37,9 @@ export default function App() {
     else setToReadList((toReadList) => toReadList.filter((book) => book.key !== key));
   }
 
-  const editBookHandler = (book, key) => {
-    console.log('editando')
+  const editBookHandler = (bookItem) => {
+    deleteBookHandler(bookItem.key);
+    setReadBookList((currentRBList) => [...currentRBList, bookItem]);
   }
 
   const styles = StyleSheet.create({
@@ -58,7 +56,8 @@ export default function App() {
       backgroundColor: color,
       height: '85%',
       width: '100%',
-      paddingTop: 20
+      paddingTop: 20,
+      paddingLeft: 10
     }
   });
 
@@ -80,18 +79,18 @@ export default function App() {
 
       <View style={styles.bookList}>
         {showList ?
-          <FlatList data={readBookList} renderItem={itemList => (
+          <FlatList style={{paddingRight: 10}} data={readBookList} renderItem={itemList => (
             <BookCard
-              value={itemList.item.value}
+              bookItem={itemList.item}
               deleteBook={() => confirmDeleteAlert(itemList.item)}
-              editBook={() => {setBookItem(itemList.item); setEditModalVisible(true)}}
+              editBookHandler={editBookHandler}
             />
           )} /> :
-          <FlatList data={toReadList} renderItem={itemList => (
+          <FlatList style={{paddingRight: 10}} data={toReadList} renderItem={itemList => (
             <BookCard
-              value={itemList.item.value}
+              bookItem={itemList.item}
               deleteBook={() => confirmDeleteAlert(itemList.item)}
-              editBook={() => {setBookItem(itemList.item); setEditModalVisible(true)}}
+              editBookHandler={editBookHandler}
             />
           )} />}
       </View>
@@ -104,13 +103,6 @@ export default function App() {
         onAddBookHandler={addBookHandler}
         addModalVisible={addModalVisible}
         setAddModalVisible={setAddModalVisible}
-      />
-
-      <EditBookModal
-        bookItem={bookItem}
-        onEditBookHandler={editBookHandler}
-        editModalVisible={editModalVisible}
-        setEditModalVisible={setEditModalVisible}
       />
     </View>
   );

@@ -25,15 +25,11 @@ export const EditBookModal = ({ onEditBookHandler, setEditModalVisible, editModa
     };
 
     const resetAndCloseModal = () => {
-        setTitle("");
-        setPages("");
-        setReadPages("");
-        setCover("");
         setEditModalVisible(false);
     }
 
     const validateBook = () => {
-        onEditBookHandler({ title, pages: parseInt(pages), readPages: parseInt(readPages), cover }, bookItem.key);
+        onEditBookHandler({...bookItem, value: {title, pages: parseInt(pages), readPages: parseInt(readPages), cover}});
         resetAndCloseModal();
     };
 
